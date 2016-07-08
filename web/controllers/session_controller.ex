@@ -8,7 +8,7 @@ defmodule Habitus.SessionController do
   alias Habitus.User
   
   def create(conn, %{"grant_type" => "password",
-    "display_name" => username,
+    "username" => username,
     "password" => password}) do
 
     try do

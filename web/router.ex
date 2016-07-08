@@ -17,12 +17,16 @@ defmodule Habitus.Router do
     post "/register", RegistrationController, :create
     post "/token", SessionController, :create, as: :login
     
-    #pipe_through :auth
+    resources "/posts", PostController, only: [:index, :show]
+    resources "/pages", PageController, only: [:index, :show]
+    resources "/comments", CommentController, only: [:index, :show]
+    resources "/tags", TagController, only: [:index, :show]
+    
+    pipe_through :auth
     resources "/users", UserController, except: [:new, :edit]
-    #get "/posts/:alias", Habitus.PostController, :show_alias
-    resources "/posts", PostController, except: [:new, :edit]
-    resources "/pages", PageController, except: [:new, :edit]
-    resources "/comments", CommentController, except: [:new, :edit]
-    resources "/tags", TagController, except: [:new, :edit]
+    resources "/posts", AdminPostController, only: [:create, :update, :delete]
+    resources "/pages", AdminPageController, only: [:create, :update, :delete]
+    resources "/comments", AdminCommentController, only: [:create, :update, :delete]
+    resources "/tags", AdminTagController, only: [:create, :update, :delete]
   end
 end

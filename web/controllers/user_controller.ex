@@ -4,7 +4,7 @@ defmodule Habitus.UserController do
   alias Habitus.User
   alias JaSerializer.Params
   
-  #plug Guardian.Plug.EnsureAuthenticated, handler: Habitus.AuthErrorHandler
+  plug Guardian.Plug.EnsureAuthenticated, handler: Habitus.AuthErrorHandler
   plug :scrub_params, "data" when action in [:create, :update]
 
   def index(conn, _params) do
