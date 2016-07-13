@@ -6,12 +6,12 @@ defmodule Habitus.TagController do
 
   def index(conn, _params) do
     tags = Repo.all(Tag)
-    render(conn, "index.json", data: tags)
+    render(conn, "index.json-api", data: tags)
   end
 
   def show(conn, %{"id" => id}) do
     tag = Repo.get!(Tag, id)
-    render(conn, "show.json", data: tag)
+    render(conn, "show.json-api", data: tag)
   end
 
 end

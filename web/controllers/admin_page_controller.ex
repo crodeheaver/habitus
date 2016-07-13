@@ -3,19 +3,19 @@ defmodule Habitus.AdminPageController do
 
   alias Habitus.Page
   alias JaSerializer.Params
-  
-  plug Guardian.Plug.EnsureAuthenticated, handler: Habitus.AuthErrorHandler
+  import Logger
   plug :scrub_params, "data" when action in [:create, :update]
 
   def create(conn, %{"data" => data = %{"type" => "pages", "attributes" => _page_params}}) do
     changeset = Page.changeset(%Page{}, Params.to_attributes(data))
-
+    current_user = Guardian.Plug.current_resource(conn)
+    IO.inspect current_user
     case Repo.insert(changeset) do
       {:ok, page} ->
         conn
         |> put_status(:created)
         |> put_resp_header("location", page_path(conn, :show, page))
-        |> render("show.json", data: page)
+        |> render("show.json-api", data: page)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -29,7 +29,7 @@ defmodule Habitus.AdminPageController do
 
     case Repo.update(changeset) do
       {:ok, page} ->
-        render(conn, "show.json", data: page)
+        render(conn, "show.json-api", data: page)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)

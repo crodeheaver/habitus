@@ -4,7 +4,6 @@ defmodule Habitus.AdminTagController do
   alias Habitus.Tag
   alias JaSerializer.Params
   
-  plug Guardian.Plug.EnsureAuthenticated, handler: Habitus.AuthErrorHandler
   plug :scrub_params, "data" when action in [:create, :update]
   
   def create(conn, %{"data" => data = %{"type" => "tags", "attributes" => _tag_params}}) do
@@ -15,7 +14,7 @@ defmodule Habitus.AdminTagController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", tag_path(conn, :show, tag))
-        |> render("show.json", data: tag)
+        |> render("show.json-api", data: tag)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -29,7 +28,7 @@ defmodule Habitus.AdminTagController do
 
     case Repo.update(changeset) do
       {:ok, tag} ->
-        render(conn, "show.json", data: tag)
+        render(conn, "show.json-api", data: tag)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)

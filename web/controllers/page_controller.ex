@@ -7,12 +7,12 @@ defmodule Habitus.PageController do
 
   def index(conn, _params) do
     pages = Repo.all(Page)
-    render(conn, "index.json", data: pages)
+    render(conn, "index.json-api", data: pages)
   end
 
   def show(conn, %{"id" => id}) do
     page = Repo.get_by!(Page, alias: id)
-    render(conn, "show.json", data: page)
+    render(conn, "show.json-api", data: page)
   end
 
 end

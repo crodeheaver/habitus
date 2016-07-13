@@ -1,0 +1,98 @@
+{
+    "jsonapi": {
+        "version": "1.0"
+    },
+    "data": [{
+        "type": "user",
+        "relationships": {
+            "role": {
+                "data": {
+                    "type": "role",
+                    "id": "1"
+                }
+            }
+        },
+        "id": "1",
+        "attributes": {
+            "updated-at": "2016-07-12T19:39:49",
+            "role-type": null,
+            "role-id": 1,
+            "role": 1,
+            "password-hash": "$2b$12$7o.cpyuKptFJvLw6ntAELeOhxVa0JW45x8dU3KgYrELhFdBMH9.Um",
+            "last-name": null,
+            "inserted-at": "2016-07-12T19:39:49",
+            "first-name": null,
+            "email": "admin@admin.com",
+            "display-name": "admin"
+        }
+    }, {
+        "type": "user",
+        "relationships": {
+            "role": {
+                "data": {
+                    "type": "role",
+                    "id": "1"
+                }
+            }
+        },
+        "id": "2",
+        "attributes": {
+            "updated-at": "2016-07-12T19:39:50",
+            "role-type": null,
+            "role-id": 1,
+            "role": 1,
+            "password-hash": "$2b$12$G5JQd2rvYPRW.lKrmKv2su5VUOXYb27awQFUUkYlEvEWM.bgOhHTa",
+            "last-name": "Rodeheaver",
+            "inserted-at": "2016-07-12T19:39:50",
+            "first-name": "Colby",
+            "email": "carodeheaver@gmail.com",
+            "display-name": "crodeheaver"
+        }
+    }, {
+        "type": "user",
+        "relationships": {
+            "role": {
+                "data": {
+                    "type": "role",
+                    "id": "1"
+                }
+            }
+        },
+        "id": "3",
+        "attributes": {
+            "updated-at": "2016-07-12T20:45:55",
+            "role-type": null,
+            "role-id": 1,
+            "role": 1,
+            "password-hash": "$2b$12$knGKTbNUQF8Ta./YKng31uLpcDrC3.hAy91ePo1NM8qt4NSSoizrK",
+            "last-name": "Bland",
+            "inserted-at": "2016-07-12T19:39:50",
+            "first-name": "Nathan",
+            "email": "nathan.bland@gmail.com",
+            "display-name": "nbland"
+        }
+    }, {
+        "type": "user",
+        "relationships": {
+            "role": {
+                "data": {
+                    "type": "role",
+                    "id": "2"
+                }
+            }
+        },
+        "id": "4",
+        "attributes": {
+            "updated-at": "2016-07-12T19:39:51",
+            "role-type": null,
+            "role-id": 2,
+            "role": 2,
+            "password-hash": "$2b$12$0a2vHc6IqY2ayQU09Hd6.uegcNgjbSpz8thiLxQ4iCEDst.dEoP4S",
+            "last-name": "Wade",
+            "inserted-at": "2016-07-12T19:39:51",
+            "first-name": "Keith",
+            "email": "kwade@gmail.com",
+            "display-name": "kwade"
+        }
+    }]
+}

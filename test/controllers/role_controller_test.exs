@@ -1,10 +1,10 @@
-defmodule Habitus.UserControllerTest do
+defmodule Habitus.RoleControllerTest do
   use Habitus.ConnCase
 
-  alias Habitus.User
+  alias Habitus.Role
   alias Habitus.Repo
 
-  @valid_attrs %{display_name: "some content", email: "some content", first_name: "some content", last_name: "some content", password_hash: "some content"}
+  @valid_attrs %{role_type: "some content"}
   @invalid_attrs %{}
 
   setup do
@@ -15,63 +15,49 @@ defmodule Habitus.UserControllerTest do
     {:ok, conn: conn}
   end
   
-  defp relationships do 
-    role = Repo.insert!(%Habitus.Role{})
-
-    %{
-      "role" => %{
-        "data" => %{
-          "type" => "role",
-          "id" => role.id
-        }
-      },
-    }
+  defp relationships do
+    %{}
   end
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get conn, user_path(conn, :index)
+    conn = get conn, role_path(conn, :index)
     assert json_response(conn, 200)["data"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = get conn, user_path(conn, :show, user)
+    role = Repo.insert! %Role{}
+    conn = get conn, role_path(conn, :show, role)
     data = json_response(conn, 200)["data"]
-    assert data["id"] == "#{user.id}"
-    assert data["type"] == "user"
-    assert data["attributes"]["display_name"] == user.display_name
-    assert data["attributes"]["first_name"] == user.first_name
-    assert data["attributes"]["last_name"] == user.last_name
-    assert data["attributes"]["email"] == user.email
-    assert data["attributes"]["password_hash"] == user.password_hash
-    assert data["attributes"]["role_id"] == user.role_id
+    assert data["id"] == "#{role.id}"
+    assert data["type"] == "role"
+    assert data["attributes"]["role_type"] == role.role_type
   end
 
   test "does not show resource and instead throw error when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
-      get conn, user_path(conn, :show, -1)
+      get conn, role_path(conn, :show, -1)
     end
   end
 
   test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, user_path(conn, :create), %{
+    conn = post conn, role_path(conn, :create), %{
       "meta" => %{},
       "data" => %{
-        "type" => "user",
+        "type" => "role",
         "attributes" => @valid_attrs,
         "relationships" => relationships
       }
     }
 
     assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(User, @valid_attrs)
+    assert Repo.get_by(Role, @valid_attrs)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, user_path(conn, :create), %{
+    conn = post conn, role_path(conn, :create), %{
       "meta" => %{},
       "data" => %{
-        "type" => "user",
+        "type" => "role",
         "attributes" => @invalid_attrs,
         "relationships" => relationships
       }
@@ -81,28 +67,28 @@ defmodule Habitus.UserControllerTest do
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = put conn, user_path(conn, :update, user), %{
+    role = Repo.insert! %Role{}
+    conn = put conn, role_path(conn, :update, role), %{
       "meta" => %{},
       "data" => %{
-        "type" => "user",
-        "id" => user.id,
+        "type" => "role",
+        "id" => role.id,
         "attributes" => @valid_attrs,
         "relationships" => relationships
       }
     }
 
     assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(User, @valid_attrs)
+    assert Repo.get_by(Role, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = put conn, user_path(conn, :update, user), %{
+    role = Repo.insert! %Role{}
+    conn = put conn, role_path(conn, :update, role), %{
       "meta" => %{},
       "data" => %{
-        "type" => "user",
-        "id" => user.id,
+        "type" => "role",
+        "id" => role.id,
         "attributes" => @invalid_attrs,
         "relationships" => relationships
       }
@@ -112,10 +98,10 @@ defmodule Habitus.UserControllerTest do
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = delete conn, user_path(conn, :delete, user)
+    role = Repo.insert! %Role{}
+    conn = delete conn, role_path(conn, :delete, role)
     assert response(conn, 204)
-    refute Repo.get(User, user.id)
+    refute Repo.get(Role, role.id)
   end
 
 end

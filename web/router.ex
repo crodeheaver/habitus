@@ -8,6 +8,7 @@ defmodule Habitus.Router do
   pipeline :auth do
     plug Guardian.Plug.VerifyHeader, realm: "Bearer"
     plug Guardian.Plug.LoadResource
+    plug Guardian.Plug.EnsureAuthenticated, handler: Habitus.AuthErrorHandler
     plug JaSerializer.ContentTypeNegotiation
     plug JaSerializer.Deserializer
   end
@@ -23,6 +24,7 @@ defmodule Habitus.Router do
     resources "/tags", TagController, only: [:index, :show]
     
     pipe_through :auth
+    resources "/roles", RoleController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
     resources "/posts", AdminPostController, only: [:create, :update, :delete]
     resources "/pages", AdminPageController, only: [:create, :update, :delete]

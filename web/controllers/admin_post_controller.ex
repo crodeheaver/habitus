@@ -3,8 +3,7 @@ defmodule Habitus.AdminPostController do
 
   alias Habitus.Post
   alias JaSerializer.Params
-  
-  plug Guardian.Plug.EnsureAuthenticated, handler: Habitus.AuthErrorHandler
+
   plug :scrub_params, "data" when action in [:create, :update]
 
   def create(conn, %{"data" => data = %{"type" => "post", "attributes" => _post_params}}) do
@@ -15,7 +14,7 @@ defmodule Habitus.AdminPostController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", post_path(conn, :show, post))
-        |> render("show.json", data: post)
+        |> render("show.json-api", data: post)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -29,7 +28,7 @@ defmodule Habitus.AdminPostController do
 
     case Repo.update(changeset) do
       {:ok, post} ->
-        render(conn, "show.json", data: post)
+        render(conn, "show.json-api", data: post)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)

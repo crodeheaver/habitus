@@ -5,7 +5,6 @@ defmodule Habitus.Page do
     field :title, :string
     field :content, :string
     field :alias, :string
-    belongs_to :user, Habitus.User
 
     timestamps()
   end

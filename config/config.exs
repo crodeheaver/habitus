@@ -21,6 +21,8 @@ config :plug, :mimes, %{
   "application/vnd.api+json" => ["json-api"]
 }
 
+config :phoenix, :format_encoders, "json-api": Poison
+
 config :guardian, Guardian,
   allowed_algos: ["HS512"], # optional
   verify_module: Guardian.JWT,  # optional

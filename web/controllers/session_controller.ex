@@ -8,20 +8,20 @@ defmodule Habitus.SessionController do
   alias Habitus.User
   
   def create(conn, %{"grant_type" => "password",
-    "username" => username,
+    "username" => email,
     "password" => password}) do
 
     try do
       # Attempt to retrieve exactly one user from the DB, whose
       #   email matches the one provided with the login request
       user = User
-      |> where(display_name: ^username)
+      |> where(email: ^email)
       |> Repo.one!
       cond do
         
         checkpw(password, user.password_hash) ->
           # Successful login
-          Logger.info "User " <> username <> " just logged in"
+          Logger.info "User " <> email <> " just logged in"
           # Encode a JWT
           { :ok, jwt, _} = Guardian.encode_and_sign(user, :token)
           conn
@@ -29,7 +29,7 @@ defmodule Habitus.SessionController do
         
         true ->
           # Unsuccessful login
-          Logger.warn "User " <> username <> " just failed to login"
+          Logger.warn "User " <> email <> " just failed to login"
           conn
           |> put_status(401)
           |> render(Habitus.ErrorView, "401.json")
@@ -37,7 +37,7 @@ defmodule Habitus.SessionController do
     rescue
       e ->
         IO.inspect e # Print error to the console for debugging
-        Logger.error "Unexpected error while attempting to login user " <> username
+        Logger.error "Unexpected error while attempting to login user " <> email
         conn
         |> put_status(401)
         |> render(Habitus.ErrorView, "401.json")

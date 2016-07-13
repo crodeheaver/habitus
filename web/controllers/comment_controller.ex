@@ -6,12 +6,12 @@ defmodule Habitus.CommentController do
 
   def index(conn, _params) do
     comments = Repo.all(Comment)
-    render(conn, "index.json", data: comments)
+    render(conn, "index.json-api", data: comments)
   end
 
   def show(conn, %{"id" => id}) do
     comment = Repo.get!(Comment, id)
-    render(conn, "show.json", data: comment)
+    render(conn, "show.json-api", data: comment)
   end
 
 end

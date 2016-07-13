@@ -4,7 +4,6 @@ defmodule Habitus.AdminCommentController do
   alias Habitus.Comment
   alias JaSerializer.Params
   
-  plug Guardian.Plug.EnsureAuthenticated, handler: Habitus.AuthErrorHandler
   plug :scrub_params, "data" when action in [:create, :update]
 
   def create(conn, %{"data" => data = %{"type" => "comment", "attributes" => _comment_params}}) do
@@ -15,7 +14,7 @@ defmodule Habitus.AdminCommentController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", comment_path(conn, :show, comment))
-        |> render("show.json", data: comment)
+        |> render("show.json-api", data: comment)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -29,7 +28,7 @@ defmodule Habitus.AdminCommentController do
 
     case Repo.update(changeset) do
       {:ok, comment} ->
-        render(conn, "show.json", data: comment)
+        render(conn, "show.json-api", data: comment)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
