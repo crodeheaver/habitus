@@ -6,6 +6,7 @@ defmodule Habitus.Repo.Migrations.CreatePage do
       add :title, :string
       add :content, :string
       add :alias, :string
+      add :enable_comments, :boolean, default: false, null: false
 
       timestamps()
     end

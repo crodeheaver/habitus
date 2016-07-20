@@ -18,6 +18,7 @@ defmodule Habitus.Router do
     post "/register", RegistrationController, :create
     post "/token", SessionController, :create, as: :login
     
+    resources "/users", UserController, only: [:index, :show]
     resources "/posts", PostController, only: [:index, :show]
     resources "/pages", PageController, only: [:index, :show]
     resources "/comments", CommentController, only: [:index, :show]
@@ -25,10 +26,11 @@ defmodule Habitus.Router do
     
     pipe_through :auth
     resources "/roles", RoleController, except: [:new, :edit]
-    resources "/users", UserController, except: [:new, :edit]
+    resources "/users", AdminUserController, only: [:create, :update, :delete]
     resources "/posts", AdminPostController, only: [:create, :update, :delete]
     resources "/pages", AdminPageController, only: [:create, :update, :delete]
     resources "/comments", AdminCommentController, only: [:create, :update, :delete]
     resources "/tags", AdminTagController, only: [:create, :update, :delete]
+    resources "/settings", SettingController, except: [:new, :edit]
   end
 end

@@ -5,35 +5,40 @@ defmodule Habitus.AdminPageController do
   alias JaSerializer.Params
   import Logger
   plug :scrub_params, "data" when action in [:create, :update]
-
+  
   def create(conn, %{"data" => data = %{"type" => "pages", "attributes" => _page_params}}) do
     changeset = Page.changeset(%Page{}, Params.to_attributes(data))
-    current_user = Guardian.Plug.current_resource(conn)
-    IO.inspect current_user
+
     case Repo.insert(changeset) do
       {:ok, page} ->
         conn
         |> put_status(:created)
         |> put_resp_header("location", page_path(conn, :show, page))
-        |> render("show.json-api", data: page)
+        #|> render("show.json-api", data: page)
+        |> render(Habitus.SavePageView, "show.json-api", data: page)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(Habitus.ChangesetView, "error.json", changeset: changeset)
+        |> render(Habitus.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 
   def update(conn, %{"id" => id, "data" => data = %{"type" => "pages", "attributes" => _page_params}}) do
-    page = Repo.get!(Page, id)
+    #page = Repo.get!(Page, id)
+    #changeset = Page.changeset(page, Params.to_attributes(data))
+    query = from p in Page,
+            preload: [:comments]
+    page = Repo.get!(query, id)
+    
     changeset = Page.changeset(page, Params.to_attributes(data))
-
+    
     case Repo.update(changeset) do
       {:ok, page} ->
         render(conn, "show.json-api", data: page)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(Habitus.ChangesetView, "error.json", changeset: changeset)
+        |> render(Habitus.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 

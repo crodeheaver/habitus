@@ -3,7 +3,7 @@ defmodule Habitus.Tag do
 
   schema "tags" do
     field :content, :string
-    belongs_to :page, Habitus.Page
+    many_to_many :page, Habitus.Page, join_through: "posts_tags"
 
     timestamps()
   end

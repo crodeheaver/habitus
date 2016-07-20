@@ -4,7 +4,7 @@ defmodule Habitus.PostControllerTest do
   alias Habitus.Post
   alias Habitus.Repo
 
-  @valid_attrs %{content: "some content", title: "some content"}
+  @valid_attrs %{alias: "some content", content: "some content", enable_comments: true, field: "some content", title: "some content"}
   @invalid_attrs %{}
 
   setup do
@@ -40,7 +40,10 @@ defmodule Habitus.PostControllerTest do
     assert data["id"] == "#{post.id}"
     assert data["type"] == "post"
     assert data["attributes"]["title"] == post.title
+    assert data["attributes"]["field"] == post.field
     assert data["attributes"]["content"] == post.content
+    assert data["attributes"]["alias"] == post.alias
+    assert data["attributes"]["enable_comments"] == post.enable_comments
     assert data["attributes"]["user_id"] == post.user_id
   end
 

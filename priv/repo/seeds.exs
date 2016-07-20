@@ -12,7 +12,7 @@
 alias Habitus.User
 alias Habitus.Page
 alias Habitus.Tag
-alias Habtitus.Comment
+alias Habitus.Comment
 alias Habitus.Role
 
 Habitus.Repo.insert!(Role.changeset %Role{}, %{
@@ -67,17 +67,25 @@ Habitus.Repo.insert!(User.changeset %User{}, %{
 Habitus.Repo.insert!(%Page{
     title: "Index",
     content: "This is the Index page!",
-    alias: "index"
+    alias: "index",
+    enable_comments: true
   })
 
 Habitus.Repo.insert!(%Page{
     title: "About Me",
     content: "This is a new Page",
-    alias: "about-me"
+    alias: "about-me",
+    enable_comments: true
   })
-Habitus.Repo.insert!(%Page{
-    title: "Contact Me",
-    content: "This is a new Page",
-    alias: "contact-me"
+  
+Habitus.Repo.insert!(%Comment{
+    content: "This is my favorite page!",
+    page_id: 1,
+    user_id: 3
+  })
+Habitus.Repo.insert!(%Comment{
+    content: "Mine too!",
+    page_id: 1,
+    user_id: 2
   })
   

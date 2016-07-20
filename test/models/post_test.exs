@@ -3,7 +3,7 @@ defmodule Habitus.PostTest do
 
   alias Habitus.Post
 
-  @valid_attrs %{content: "some content", title: "some content"}
+  @valid_attrs %{alias: "some content", content: "some content", enable_comments: true, field: "some content", title: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

@@ -1,4 +1,4 @@
-defmodule Habitus.CommentView do
+defmodule Habitus.AdminCommentView do
   use Habitus.Web, :view
   use JaSerializer.PhoenixView
 

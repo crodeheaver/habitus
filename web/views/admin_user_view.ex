@@ -1,4 +1,4 @@
-defmodule Habitus.UserView do
+defmodule Habitus.AdminUserView do
   use Habitus.Web, :view
   use JaSerializer.PhoenixView
 
@@ -6,7 +6,6 @@ defmodule Habitus.UserView do
   
   has_one :role,
     serializer: Habitus.RoleView,
-    field: :role_id,
     type: "role"
 
 end

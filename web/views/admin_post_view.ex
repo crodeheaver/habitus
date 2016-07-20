@@ -1,4 +1,4 @@
-defmodule Habitus.PageView do
+defmodule Habitus.AdminPostView do
   use Habitus.Web, :view
   use JaSerializer.PhoenixView
 
@@ -8,7 +8,12 @@ defmodule Habitus.PageView do
     serializer: Habitus.CommentView,
     include: true,
     type: "comment"
-
+    
+    has_one :user,
+    serializer: Habitus.UserView,
+    include: true,
+    type: "user"
+    
 end
 
 # defmodule Habitus.PageView do

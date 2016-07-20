@@ -18,6 +18,7 @@ defmodule Habitus.CommentControllerTest do
   defp relationships do 
     user = Repo.insert!(%Habitus.User{})
     page = Repo.insert!(%Habitus.Page{})
+    post = Repo.insert!(%Habitus.Post{})
 
     %{
       "user" => %{
@@ -30,6 +31,12 @@ defmodule Habitus.CommentControllerTest do
         "data" => %{
           "type" => "page",
           "id" => page.id
+        }
+      },
+      "post" => %{
+        "data" => %{
+          "type" => "post",
+          "id" => post.id
         }
       },
     }
@@ -49,6 +56,7 @@ defmodule Habitus.CommentControllerTest do
     assert data["attributes"]["content"] == comment.content
     assert data["attributes"]["user_id"] == comment.user_id
     assert data["attributes"]["page_id"] == comment.page_id
+    assert data["attributes"]["post_id"] == comment.post_id
   end
 
   test "does not show resource and instead throw error when id is nonexistent", %{conn: conn} do

@@ -6,9 +6,11 @@ defmodule Habitus.AdminCommentController do
   
   plug :scrub_params, "data" when action in [:create, :update]
 
-  def create(conn, %{"data" => data = %{"type" => "comment", "attributes" => _comment_params}}) do
+  def create(conn, %{"data" => data = %{"type" => "comments", "attributes" => _comment_params}}) do
     changeset = Comment.changeset(%Comment{}, Params.to_attributes(data))
-
+    
+    IO.inspect changeset
+    
     case Repo.insert(changeset) do
       {:ok, comment} ->
         conn
@@ -18,11 +20,11 @@ defmodule Habitus.AdminCommentController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(Habitus.ChangesetView, "error.json", changeset: changeset)
+        |> render(Habitus.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
-
-  def update(conn, %{"id" => id, "data" => data = %{"type" => "comment", "attributes" => _comment_params}}) do
+  
+  def update(conn, %{"id" => id, "data" => data = %{"type" => "comments", "attributes" => _comment_params}}) do
     comment = Repo.get!(Comment, id)
     changeset = Comment.changeset(comment, Params.to_attributes(data))
 
@@ -32,7 +34,7 @@ defmodule Habitus.AdminCommentController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(Habitus.ChangesetView, "error.json", changeset: changeset)
+        |> render(Habitus.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 

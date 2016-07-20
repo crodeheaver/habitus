@@ -36,7 +36,7 @@ defmodule Habitus.Endpoint do
     key: "_habitus_key",
     signing_salt: "n1AckxBd"
     
-  plug Corsica, origins: "*", allow_headers: ["content-type", "accept", "authorization"]
+  plug Corsica, origins: "*", allow_headers: ["content-type", "accept", "authorization", "origin"]
   
   plug Habitus.Router
 end

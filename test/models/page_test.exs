@@ -3,7 +3,7 @@ defmodule Habitus.PageTest do
 
   alias Habitus.Page
 
-  @valid_attrs %{alias: "some content", content: "some content", title: "some content"}
+  @valid_attrs %{alias: "some content", content: "some content", enable_comments: true, title: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

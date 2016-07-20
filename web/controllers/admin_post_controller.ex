@@ -6,7 +6,7 @@ defmodule Habitus.AdminPostController do
 
   plug :scrub_params, "data" when action in [:create, :update]
 
-  def create(conn, %{"data" => data = %{"type" => "post", "attributes" => _post_params}}) do
+  def create(conn, %{"data" => data = %{"type" => "posts", "attributes" => _post_params}}) do
     changeset = Post.changeset(%Post{}, Params.to_attributes(data))
 
     case Repo.insert(changeset) do
@@ -14,7 +14,8 @@ defmodule Habitus.AdminPostController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", post_path(conn, :show, post))
-        |> render("show.json-api", data: post)
+        #|> render("show.json-api", data: post)
+        |> render(Habitus.SavePostView, "show.json-api", data: post)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -22,7 +23,7 @@ defmodule Habitus.AdminPostController do
     end
   end
 
-  def update(conn, %{"id" => id, "data" => data = %{"type" => "post", "attributes" => _post_params}}) do
+  def update(conn, %{"id" => id, "data" => data = %{"type" => "posts", "attributes" => _post_params}}) do
     post = Repo.get!(Post, id)
     changeset = Post.changeset(post, Params.to_attributes(data))
 

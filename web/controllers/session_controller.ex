@@ -25,7 +25,7 @@ defmodule Habitus.SessionController do
           # Encode a JWT
           { :ok, jwt, _} = Guardian.encode_and_sign(user, :token)
           conn
-          |> json(%{access_token: jwt}) # Return token to the client
+          |> json(%{access_token: jwt, id: user.id}) # Return token to the client
         
         true ->
           # Unsuccessful login

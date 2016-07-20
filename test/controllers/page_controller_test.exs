@@ -4,7 +4,7 @@ defmodule Habitus.PageControllerTest do
   alias Habitus.Page
   alias Habitus.Repo
 
-  @valid_attrs %{alias: "some content", content: "some content", title: "some content"}
+  @valid_attrs %{alias: "some content", content: "some content", enable_comments: true, title: "some content"}
   @invalid_attrs %{}
 
   setup do
@@ -15,17 +15,8 @@ defmodule Habitus.PageControllerTest do
     {:ok, conn: conn}
   end
   
-  defp relationships do 
-    user = Repo.insert!(%Habitus.User{})
-
-    %{
-      "user" => %{
-        "data" => %{
-          "type" => "user",
-          "id" => user.id
-        }
-      },
-    }
+  defp relationships do
+    %{}
   end
 
   test "lists all entries on index", %{conn: conn} do
@@ -42,7 +33,7 @@ defmodule Habitus.PageControllerTest do
     assert data["attributes"]["title"] == page.title
     assert data["attributes"]["content"] == page.content
     assert data["attributes"]["alias"] == page.alias
-    assert data["attributes"]["user_id"] == page.user_id
+    assert data["attributes"]["enable_comments"] == page.enable_comments
   end
 
   test "does not show resource and instead throw error when id is nonexistent", %{conn: conn} do
